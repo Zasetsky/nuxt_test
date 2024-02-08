@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <form>
+  <div class="flex flex-col items-center">
+    <div class="flex flex-col">
       <TheInput v-model="username" placeholder="Username" />
       <TheInput v-model="email" placeholder="Email" />
       <TheInput v-model="password" placeholder="Password" type="password" />
@@ -9,19 +9,35 @@
         placeholder="Confirm Password"
         type="password"
       />
-      <TheButton :disabled="isSignUpDisabled" @click="signUp"
+      <div class="mb-6">
+        <label class="custom-checkbox">
+          <input type="checkbox" class="hidden-checkbox" />
+          <span class="checkmark"></span>
+        </label>
+        <span class="ml-7">
+          Accept
+          <NuxtLink
+            class="text-[#8098F9] font-bold hover:text-[#6b82d6] transition-colors duration-300 ease-in-out"
+            to="https://twitter.com/nuxt_js"
+            target="_blank"
+            >terms and conditions</NuxtLink
+          >
+        </span>
+      </div>
+
+      <TheButton text="SIGN UP" :disabled="isSignUpDisabled" @click="signUp"
         >Sign Up</TheButton
       >
-      <input type="checkbox" />
-      <span
-        >Accept
-        <NuxtLink to="https://twitter.com/nuxt_js" target="_blank">
-          terms and conditions
-        </NuxtLink>
-      </span>
-    </form>
+    </div>
 
-    <span>You have account? <NuxtLink to="/login">Login now</NuxtLink></span>
+    <span
+      >You have account?
+      <NuxtLink
+        class="text-[#8098F9] font-bold hover:text-[#6b82d6] transition-colors duration-300 ease-in-out"
+        to="/login"
+        >Login now</NuxtLink
+      ></span
+    >
   </div>
 </template>
 
@@ -40,7 +56,12 @@ const password = ref("");
 const confirmPassword = ref("");
 
 const isSignUpDisabled = computed(() => {
-  return !email.value || !password.value || !confirmPassword.value;
+  return (
+    !username.value || !email.value || !password.value || !confirmPassword.value
+  );
+});
+watch(isSignUpDisabled, (newVal, oldVal) => {
+  console.log("isSignUpDisabled changed from", oldVal, "to", newVal);
 });
 
 const hasFormChanges = computed(() => {
@@ -71,3 +92,56 @@ function signUp() {
   // Функция регистрации
 }
 </script>
+
+<style scoped>
+.custom-checkbox {
+  position: relative;
+  cursor: pointer;
+}
+
+.hidden-checkbox {
+  position: absolute;
+  opacity: 0;
+}
+
+.custom-checkbox .checkmark {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #8098f9;
+  border-radius: 2px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.custom-checkbox .checkmark:hover:not(:checked) {
+  border-color: #6b82d6;
+}
+
+.hidden-checkbox:checked + .checkmark:hover {
+  border-color: #8098f9;
+}
+
+.hidden-checkbox:checked + .checkmark {
+  background-color: #8098f9;
+}
+
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.hidden-checkbox:checked + .checkmark:after {
+  display: block;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+</style>

@@ -4,7 +4,7 @@
     <EnvelopeIcon v-if="isEnvelopeIconVisible" class="icon" />
     <ShieldIcon v-if="isShieldIconVisible" class="icon" />
     <EyeIcon
-      @click="isPasswordVisibled = !isPasswordVisibled"
+      @click.stop="isPasswordVisibled = !isPasswordVisibled"
       :class="{ visible: isPasswordVisibled }"
       v-if="isShieldIconVisible"
       class="icon-eye"
@@ -59,7 +59,7 @@ function setFocus() {
 
 <style scoped>
 .input-wrapper {
-  @apply cursor-text relative flex items-center w-[453px] h-[64px] rounded-lg border bg-[#8098F980] border-[#8098F980];
+  @apply cursor-text relative flex items-center w-[453px] h-[64px] rounded-lg border bg-[#8098F980] border-[#8098F980] mb-2.5;
   --tw-border-opacity: 0.5;
   border-color: rgba(128, 152, 249, var(--tw-border-opacity));
   --tw-bg-opacity: 0.1;
@@ -103,6 +103,5 @@ function setFocus() {
 .input-wrapper:focus-within {
   --tw-border-opacity: 1;
   --tw-bg-opacity: 0.2;
-  --tw-text-opacity: 1;
 }
 </style>

@@ -3,7 +3,7 @@
     <form @submit.prevent="login">
       <TheInput v-model="email" placeholder="Email" />
       <TheInput v-model="password" placeholder="Password" type="password" />
-      <TheButton :disabled="!email || !password">Log In</TheButton>
+      <TheButton text="LOG IN" :disabled="!email || !password">Log In</TheButton>
     </form>
     <span
       >Don’t have account? <NuxtLink to="/signup">Create an account</NuxtLink>
