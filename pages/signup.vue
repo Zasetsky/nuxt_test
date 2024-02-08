@@ -1,11 +1,14 @@
 <template>
-  <div class="flex flex-col items-center justify-center">
-    <div class="flex flex-col w-full mb-6">
-      <h1 class="text-[40px] font-bold mb-0 leading-6">Create your account</h1>
-      <span class="text-[20px] text-[#71717A] mt-2">Unlock all Features!</span>
-    </div>
-
+  <div class="flex flex-col items-center justify-center w-full">
     <div class="flex flex-col">
+      <div class="flex flex-col w-full mb-6">
+        <h1 class="text-[40px] font-bold mb-0 leading-6">
+          Create your account
+        </h1>
+        <span class="text-[20px] text-[#71717A] mt-2"
+          >Unlock all Features!</span
+        >
+      </div>
       <TheInput v-model="username" placeholder="Username" />
       <TheInput v-model="email" placeholder="Email" />
       <TheInput v-model="password" placeholder="Password" type="password" />
