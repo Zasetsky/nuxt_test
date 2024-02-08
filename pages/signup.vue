@@ -9,17 +9,25 @@
           >Unlock all Features!</span
         >
       </div>
-      <TheInput v-model="username" placeholder="Username" />
-      <TheInput v-model="email" placeholder="Email" />
-      <TheInput v-model="password" placeholder="Password" type="password" />
+      <TheInput v-model="authStore.username" placeholder="Username" />
+      <TheInput v-model="authStore.email" placeholder="Email" />
       <TheInput
-        v-model="confirmPassword"
+        v-model="authStore.password"
+        placeholder="Password"
+        type="password"
+      />
+      <TheInput
+        v-model="authStore.confirmPassword"
         placeholder="Confirm Password"
         type="password"
       />
       <div class="mb-5">
         <label class="custom-checkbox">
-          <input type="checkbox" class="hidden-checkbox" v-model="isAccept" />
+          <input
+            type="checkbox"
+            class="hidden-checkbox"
+            v-model="authStore.isAccept"
+          />
           <span class="checkmark"></span>
         </label>
         <span class="ml-7">
@@ -33,7 +41,10 @@
         </span>
       </div>
 
-      <TheButton text="SIGN UP" :disabled="isSignUpDisabled" @click="signUp"
+      <TheButton
+        text="SIGN UP"
+        :disabled="isSignUpDisabled"
+        @click="authStore.signUp()"
         >Sign Up</TheButton
       >
     </div>
@@ -50,31 +61,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
+import { useAuthStore } from "~/stores/auth.store";
 import TheInput from "../components/TheInput.vue";
 import TheButton from "../components/TheButton.vue";
+
+const authStore = useAuthStore();
+
+const username = computed(() => authStore.username);
+const email = computed(() => authStore.email);
+const password = computed(() => authStore.password);
+const confirmPassword = computed(() => authStore.confirmPassword);
+const isAccept = computed(() => authStore.isAccept);
 
 definePageMeta({
   layout: "auth-layout",
 });
 
-const username = ref("");
-const email = ref("");
-const password = ref("");
-const confirmPassword = ref("");
-const isAccept = ref(false);
-
 const isSignUpDisabled = computed(() => {
-  return (
-    !username.value ||
-    !email.value ||
-    !password.value ||
-    !confirmPassword.value ||
-    !isAccept.value
+  return !(
+    username.value.length &&
+    email.value.length &&
+    password.value.length &&
+    confirmPassword.value === password.value &&
+    isAccept.value
   );
-});
-watch(isSignUpDisabled, (newVal, oldVal) => {
-  console.log("isSignUpDisabled changed from", oldVal, "to", newVal);
 });
 
 const hasFormChanges = computed(() => {
@@ -82,13 +93,12 @@ const hasFormChanges = computed(() => {
     username.value.length > 0 ||
     email.value.length > 0 ||
     password.value.length > 0 ||
-    confirmPassword.value.length > 0
+    confirmPassword.value.length > 0 ||
+    isAccept.value
   );
 });
 
 onBeforeRouteLeave((to, from, next) => {
-  console.log(username.value);
-
   if (
     hasFormChanges.value &&
     !window.confirm(
@@ -98,12 +108,13 @@ onBeforeRouteLeave((to, from, next) => {
     next(false);
   } else {
     next();
+    authStore.username = "";
+    authStore.email = "";
+    authStore.password = "";
+    authStore.confirmPassword = "";
+    authStore.isAccept = false;
   }
 });
-
-function signUp() {
-  // Функция регистрации
-}
 </script>
 
 <style scoped>

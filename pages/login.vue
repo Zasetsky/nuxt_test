@@ -7,14 +7,25 @@
         <span class="text-[15px]">with email</span>
         <div class="w-[120px] h-[1px] bg-[#71717A]"></div>
       </div>
-      <TheInput v-model="email" placeholder="Email" />
-      <TheInput v-model="password" placeholder="Password" type="password" />
-      <TheButton class="mt-4" text="LOG IN">Log In</TheButton>
+      <TheInput v-model="authStore.email" placeholder="Email" />
+      <TheInput
+        v-model="authStore.password"
+        placeholder="Password"
+        type="password"
+      />
+      <TheButton
+        class="mt-4"
+        text="LOG IN"
+        @click="authStore.login()"
+        :disabled="email.length === 0 || password.length === 0"
+        >Log In</TheButton
+      >
       <span class="mt-4"
         >Don’t have account?
         <NuxtLink
           class="text-[#8098F9] font-bold hover:text-[#6172F3] transition-colors duration-300 ease-in-out"
           to="/signup"
+          @click="resetFields"
           >Create an account</NuxtLink
         >
       </span>
@@ -25,20 +36,18 @@
 <script setup lang="ts">
 import TheInput from "../components/TheInput.vue";
 import TheButton from "../components/TheButton.vue";
-import { ref } from "vue";
+import { useAuthStore } from "~/stores/auth.store";
 
 definePageMeta({
   layout: "auth-layout",
 });
 
-const email = ref("");
-const password = ref("");
+const authStore = useAuthStore();
+const email = computed(() => authStore.email);
+const password = computed(() => authStore.password);
 
-function login() {
-  // Логика входа
-}
+const resetFields = () => {
+  authStore.email = "";
+  authStore.password = "";
+};
 </script>
-
-<style scoped>
-/* Стилизация страницы входа */
-</style>

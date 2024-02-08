@@ -1,38 +1,12 @@
 <template>
   <div class="flex justify-center items-center h-screen">
     <slot />
-    <div class="bg-[#6172F3] w-full h-screen">
+    <div class="bg-[#6172F3] w-full h-screen overflow-hidden">
       <div class="flex flex-col items-center justify-center w-full h-full">
         <div
-          class="w-[606px] h-[606px] rounded-full flex items-center justify-center relative"
-          style="
-            background: linear-gradient(
-                162.74deg,
-                rgba(68, 76, 231, 0.162) 6.85%,
-                rgba(0, 0, 0, 0) 89.34%
-              ),
-              radial-gradient(
-                50% 50% at 50% 50%,
-                rgba(68, 76, 231, 0.162) 0%,
-                rgba(68, 76, 231, 0.058) 100%
-              );
-          "
+          class="circle-1 w-[606px] h-[606px] rounded-full flex items-center justify-center relative"
         >
-          <div
-            class="w-[528px] h-[528px] rounded-full"
-            style="
-              background: radial-gradient(
-                  50% 50% at 50% 50%,
-                  rgba(68, 76, 231, 0.162) 0%,
-                  rgba(68, 76, 231, 0.058) 100%
-                ),
-                linear-gradient(
-                  173.9deg,
-                  rgba(164, 188, 253, 0.2) 4.83%,
-                  rgba(68, 76, 231, 0.162) 91.13%
-                );
-            "
-          ></div>
+          <div class="circle-2 w-[528px] h-[528px] rounded-full"></div>
 
           <LoginLayoutIcon v-if="$route.path === '/login'" class="icon" />
           <SignupLayoutIcon
@@ -77,7 +51,31 @@ const text_b = computed(() => {
 </script>
 
 <style scoped>
+.circle-1 {
+  background: linear-gradient(
+      162.74deg,
+      rgba(68, 76, 231, 0.162) 6.85%,
+      rgba(0, 0, 0, 0) 89.34%
+    ),
+    radial-gradient(
+      50% 50% at 50% 50%,
+      rgba(68, 76, 231, 0.162) 0%,
+      rgba(68, 76, 231, 0.058) 100%
+    );
+}
+.circle-2 {
+  background: radial-gradient(
+      50% 50% at 50% 50%,
+      rgba(68, 76, 231, 0.162) 0%,
+      rgba(68, 76, 231, 0.058) 100%
+    ),
+    linear-gradient(
+      173.9deg,
+      rgba(164, 188, 253, 0.2) 4.83%,
+      rgba(68, 76, 231, 0.162) 91.13%
+    );
+}
 .icon {
-  @apply absolute;
+  position: absolute;
 }
 </style>
