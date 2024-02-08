@@ -1,5 +1,10 @@
 <template>
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col w-full mb-6">
+      <h1 class="text-[40px] font-bold mb-0 leading-6">Create your account</h1>
+      <span class="text-[20px] text-[#71717A] mt-2">Unlock all Features!</span>
+    </div>
+
     <div class="flex flex-col">
       <TheInput v-model="username" placeholder="Username" />
       <TheInput v-model="email" placeholder="Email" />
@@ -9,15 +14,15 @@
         placeholder="Confirm Password"
         type="password"
       />
-      <div class="mb-6">
+      <div class="mb-5">
         <label class="custom-checkbox">
-          <input type="checkbox" class="hidden-checkbox" />
+          <input type="checkbox" class="hidden-checkbox" v-model="isAccept" />
           <span class="checkmark"></span>
         </label>
         <span class="ml-7">
           Accept
           <NuxtLink
-            class="text-[#8098F9] font-bold hover:text-[#6b82d6] transition-colors duration-300 ease-in-out"
+            class="text-[#8098F9] hover:text-[#6172F3] transition-colors duration-300 ease-in-out"
             to="https://twitter.com/nuxt_js"
             target="_blank"
             >terms and conditions</NuxtLink
@@ -30,10 +35,10 @@
       >
     </div>
 
-    <span
+    <span class="mt-4"
       >You have account?
       <NuxtLink
-        class="text-[#8098F9] font-bold hover:text-[#6b82d6] transition-colors duration-300 ease-in-out"
+        class="text-[#8098F9] font-bold hover:text-[#6172F3] transition-colors duration-300 ease-in-out"
         to="/login"
         >Login now</NuxtLink
       ></span
@@ -54,10 +59,15 @@ const username = ref("");
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
+const isAccept = ref(false);
 
 const isSignUpDisabled = computed(() => {
   return (
-    !username.value || !email.value || !password.value || !confirmPassword.value
+    !username.value ||
+    !email.value ||
+    !password.value ||
+    !confirmPassword.value ||
+    !isAccept.value
   );
 });
 watch(isSignUpDisabled, (newVal, oldVal) => {
@@ -113,11 +123,11 @@ function signUp() {
   background-color: #fff;
   border: 2px solid #8098f9;
   border-radius: 2px;
-  transition: background-color 0.3s, border-color 0.3s;
+  transition: border-color 0.3s;
 }
 
 .custom-checkbox .checkmark:hover:not(:checked) {
-  border-color: #6b82d6;
+  border-color: #6172f3;
 }
 
 .hidden-checkbox:checked + .checkmark:hover {
