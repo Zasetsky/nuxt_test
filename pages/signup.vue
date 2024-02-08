@@ -21,7 +21,7 @@
       </span>
     </form>
 
-    <span>You have account? <NuxtLink to="/login">Login now</NuxtLink> </span>
+    <span>You have account? <NuxtLink to="/login">Login now</NuxtLink></span>
   </div>
 </template>
 
@@ -43,7 +43,6 @@ const isSignUpDisabled = computed(() => {
   return !email.value || !password.value || !confirmPassword.value;
 });
 
-// Функция для проверки изменений в форме
 const hasFormChanges = computed(() => {
   return (
     username.value.length > 0 ||
@@ -54,8 +53,10 @@ const hasFormChanges = computed(() => {
 });
 
 onBeforeRouteLeave((to, from, next) => {
+  console.log(username.value);
+
   if (
-    !hasFormChanges.value &&
+    hasFormChanges.value &&
     !window.confirm(
       "Вы уверены, что хотите покинуть страницу? Все несохранённые данные будут потеряны."
     )
