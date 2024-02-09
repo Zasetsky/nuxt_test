@@ -44,7 +44,7 @@
       <TheButton
         text="SIGN UP"
         :disabled="isSignUpDisabled"
-        @click="authStore.signUp()"
+        @click="handleSignup"
         >Sign Up</TheButton
       >
     </div>
@@ -61,13 +61,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import { useAuthStore } from "~/stores/auth.store";
 import TheInput from "../components/TheInput.vue";
 import TheButton from "../components/TheButton.vue";
 
 const authStore = useAuthStore();
 
+const router = useRouter();
 const username = computed(() => authStore.username);
 const email = computed(() => authStore.email);
 const password = computed(() => authStore.password);
@@ -100,6 +100,7 @@ const hasFormChanges = computed(() => {
 
 onBeforeRouteLeave((to, from, next) => {
   if (
+    to.path === "/login" &&
     hasFormChanges.value &&
     !window.confirm(
       "Вы уверены, что хотите покинуть страницу? Все несохранённые данные будут потеряны."
@@ -108,13 +109,27 @@ onBeforeRouteLeave((to, from, next) => {
     next(false);
   } else {
     next();
-    authStore.username = "";
-    authStore.email = "";
-    authStore.password = "";
-    authStore.confirmPassword = "";
-    authStore.isAccept = false;
+    if (to.path === "/login") {
+      authStore.username = "";
+      authStore.email = "";
+      authStore.password = "";
+      authStore.confirmPassword = "";
+      authStore.isAccept = false;
+    } else {
+      authStore.password = "";
+      authStore.confirmPassword = "";
+    }
   }
 });
+
+const handleSignup = async () => {
+  const isSuccess = await authStore.signUp();
+  if (isSuccess) {
+    router.push({ path: "/otp", query: { email: email.value } });
+  } else {
+    // Здесь можно обработать ошибки
+  }
+};
 </script>
 
 <style scoped>

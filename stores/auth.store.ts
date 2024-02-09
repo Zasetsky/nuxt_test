@@ -9,13 +9,9 @@ export const useAuthStore = defineStore("auth", {
     confirmPassword: "",
     isAccept: false,
   }),
+
   actions: {
     async login() {
-      console.log({
-        username: this.email,
-        password: this.password,
-      });
-
       try {
         const response = await ofetch("https://dummyjson.com/auth/login", {
           method: "POST",
@@ -24,10 +20,8 @@ export const useAuthStore = defineStore("auth", {
             password: this.password,
           },
         });
-        console.log("response", response.token);
 
-        const data = await response.data;
-        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("authToken", response.token);
       } catch (error) {
         console.error("Ошибка входа", error);
       }
@@ -37,16 +31,17 @@ export const useAuthStore = defineStore("auth", {
       try {
         const response = await ofetch("https://dummyjson.com/auth/login", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+          body: {
             username: this.username,
             password: this.password,
-          }),
+          },
         });
-        const data = await response.json();
-        console.log(data);
+
+        localStorage.setItem("authToken", response.token);
+        return true;
       } catch (error) {
-        console.error("Ошибка входа", error);
+        console.error("Ошибка регистрации", error);
+        return false;
       }
     },
   },
